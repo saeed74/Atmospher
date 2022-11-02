@@ -1,4 +1,4 @@
-package com.arianmanesh.atmospher
+package com.arianmanesh.atmospher.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

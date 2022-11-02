@@ -42,10 +42,7 @@ class WeatherListRepository () {
     }
 
     fun readAllCitiesFromDB(context: Context): ResponseResult<List<CitiesDBModel>>{
-
-        val cities = AtmosphereDataBase.getInstance(context).citiesDao().getAllCities();
-        for (x in cities) Log.e("TAFF2" , "cityid: " + x.id + " | cityname: " + x.name)
-        return ResponseResult.Success(cities)
+        return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().getAllCities())
     }
 
     fun removeCityFromDB(context: Context, city: CitiesDBModel){

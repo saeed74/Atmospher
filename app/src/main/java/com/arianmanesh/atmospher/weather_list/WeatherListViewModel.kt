@@ -22,10 +22,6 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
 
     private val context : Application = application
 
-    private val _internetConnection = MutableLiveData<Boolean>()
-    val internetConnection: LiveData<Boolean>
-        get() = _internetConnection
-
     private val _weatherData = MutableLiveData<ResponseResult<WeatherItemResponse>>()
     val weatherData: LiveData<ResponseResult<WeatherItemResponse>>
         get() = _weatherData
@@ -84,23 +80,6 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
         repository.storeCurrentSelectedCity(city,context)
     }
 
-    fun checkInternetConnectivity(){
-        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkRequest = NetworkRequest.Builder()
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .build()
-        manager.registerNetworkCallback(networkRequest, object : NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                _internetConnection.postValue(true)
-            }
-            override fun onLost(network: Network) {
-                _internetConnection.postValue(false)
-            }
-            override fun onUnavailable() {
-                _internetConnection.postValue(false)
-            }
-        })
-    }
+
 
 }

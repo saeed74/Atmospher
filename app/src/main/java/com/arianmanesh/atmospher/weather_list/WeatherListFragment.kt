@@ -5,24 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arianmanesh.atmospher.core.ResponseResult
 import com.arianmanesh.atmospher.databinding.FragmentWeatherListBinding
 import com.arianmanesh.atmospher.city_modify.CityModifyFragment
-import com.arianmanesh.atmospher.MainActivity
+import com.arianmanesh.atmospher.main.MainActivity
 import com.arianmanesh.atmospher.R
 import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.database.CitiesDBModel
+import com.arianmanesh.atmospher.main.SharedViewModel
 import com.arianmanesh.atmospher.weather_list.adapters.WeatherItemAdapter
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.*
 
 
 class WeatherListFragment : Fragment() {
 
     private val weatherListViewModel: WeatherListViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var binding : FragmentWeatherListBinding
     private var currentCity = ""
 
@@ -39,7 +45,7 @@ class WeatherListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         weatherListViewModel.getAllCitiesFromDB()
-        weatherListViewModel.checkInternetConnectivity()
+        sharedViewModel.checkInternetConnectivity()
 
         handleCurrentSelectedCity()
         setObservers()
@@ -115,13 +121,23 @@ class WeatherListFragment : Fragment() {
             }
         })
 
-        weatherListViewModel.internetConnection.observe(viewLifecycleOwner, Observer { net ->
+        sharedViewModel.internetConnection.observe(viewLifecycleOwner, Observer { net ->
             when (net) {
                 is Boolean -> {
                     if(net){
-                        Toast.makeText(requireContext(),"NET Is BACK! :)",Toast.LENGTH_SHORT).show()
+                        if(binding.crdInternetNotifContainer.visibility == View.VISIBLE){
+                            binding.crdInternetNotifContainer.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.success))
+                            binding.txtInternetNotif.text = getString(R.string.back_online)
+                            if(!currentCity.isEmpty()) weatherListViewModel.updateWeather(currentCity)
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                delay(3000)
+                                binding.crdInternetNotifContainer.visibility = View.GONE
+                            }
+                        }
                     }else{
-                        Toast.makeText(requireContext(),"NET Is GONE :(",Toast.LENGTH_SHORT).show()
+                        binding.crdInternetNotifContainer.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.error))
+                        binding.txtInternetNotif.text = getString(R.string.no_internet_connection)
+                        binding.crdInternetNotifContainer.visibility = View.VISIBLE
                     }
                 }
                 else -> {}

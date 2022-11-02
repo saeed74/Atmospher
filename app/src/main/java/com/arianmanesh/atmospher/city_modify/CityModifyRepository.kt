@@ -18,10 +18,10 @@ class CityModifyRepository () {
 
     suspend fun getCityWeather(city: String, modifyMode: Boolean, previousCity: String, context: Context): ResponseResult<WeatherItemResponse> {
 
-        if (!modifyMode && checkCityExist(city, context)){
-            return ResponseResult.DataBaseError("Repetitive City")
+        return if (!modifyMode && checkCityExist(city, context)){
+            ResponseResult.DataBaseError("Repetitive City")
         }else{
-            return requestByRetrofit(city, modifyMode, previousCity, context)
+            requestByRetrofit(city, modifyMode, previousCity, context)
         }
 
     }
