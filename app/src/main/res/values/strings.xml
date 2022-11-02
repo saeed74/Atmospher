@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Atmosphere</string>
     <string name="empty_list">There is no city added yet,\n please add city by tapping on + sign</string>
+    <string name="enter_city_name">Enter city name:</string>
+    <string name="submit">Submit</string>
+    <string name="centigrade_sign">°C</string>
 </resources>
