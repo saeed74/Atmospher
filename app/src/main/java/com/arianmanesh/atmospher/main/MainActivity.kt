@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(WeatherListFragment())
+        addFragment(WeatherListFragment())
     }
 
     fun replaceFragment(fragment: Fragment) {
@@ -22,6 +22,13 @@ class MainActivity : AppCompatActivity() {
         val ft = fm.beginTransaction()
         ft.replace(binding.fragmentHost.id , fragment)
         ft.addToBackStack(fragment::class.java.simpleName)
+        ft.commit()
+    }
+
+    private fun addFragment(fragment: Fragment) {
+        val fm = supportFragmentManager
+        val ft = fm.beginTransaction()
+        ft.add(binding.fragmentHost.id , fragment)
         ft.commit()
     }
 
