@@ -203,7 +203,7 @@ class WeatherListFragment : Fragment() {
         adapter.onCityNameClick = {
             //todo: mig to db done
             //weatherListViewModel.storeCurrentSelectedCity(it.name,requireContext())
-            AtmosphereDataBase.getInstance(requireContext()).citiesDao().setSelectedCity(it.name)
+            AtmosphereDataBase.getInstance(requireContext()).citiesDao().setSelectedCity(it.name.lowercase())
             //currentCity = it.name
             if(sharedViewModel.checkInternetState()){
                 weatherListViewModel.updateWeather(it.name)
