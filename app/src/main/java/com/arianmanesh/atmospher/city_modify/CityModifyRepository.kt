@@ -16,12 +16,12 @@ class CityModifyRepository () {
     private lateinit var apiService : ApiService
     private val apiKey = "db7fff764dff4213a58103931220111"
 
-    suspend fun getCityWeather(city: String, context: Context): ResponseResult<WeatherItemResponse> {
+    suspend fun getCityWeather(city: String, modifyMode: Boolean, previousCity: String, context: Context): ResponseResult<WeatherItemResponse> {
 
-        if (checkCityExist(city, context)){
+        if (!modifyMode && checkCityExist(city, context)){
             return ResponseResult.DataBaseError("Repetitive City")
         }else{
-            return requestByRetrofit(city, context)
+            return requestByRetrofit(city, modifyMode, previousCity, context)
         }
 
     }
@@ -30,7 +30,7 @@ class CityModifyRepository () {
         return AtmosphereDataBase.getInstance(context).citiesDao().isCityExist(city.lowercase())
     }
 
-    private suspend fun requestByRetrofit(city: String, context: Context) : ResponseResult<WeatherItemResponse>{
+    private suspend fun requestByRetrofit(city: String, modifyMode: Boolean, previousCity: String, context: Context) : ResponseResult<WeatherItemResponse>{
 
         retrofit = Retrofit.Builder()
             .baseUrl("https://api.weatherapi.com/")
@@ -44,7 +44,14 @@ class CityModifyRepository () {
             val body = response.body()
             if (body != null) {
                 //Save to DataBase and change current selected city
-                AtmosphereDataBase.getInstance(context).citiesDao().insertCity(convertToDBModel(body))
+                val citiesDBModel = convertToDBModel(body);
+                if(modifyMode){
+                    val id = AtmosphereDataBase.getInstance(context).citiesDao().findIdByName(previousCity)
+                    Log.e("TAFF" , "id: " + id)
+                    AtmosphereDataBase.getInstance(context).citiesDao().updateCityById(citiesDBModel.name,id)
+                }else{
+                    AtmosphereDataBase.getInstance(context).citiesDao().insertCity(citiesDBModel)
+                }
                 storeCurrentSelectedCity(body.location.name.lowercase(),context)
                 return ResponseResult.Success(body)
             }

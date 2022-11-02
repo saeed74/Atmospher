@@ -20,7 +20,10 @@ interface CitiesDao {
     @Delete
     fun deleteCity(city: CitiesDBModel)
 
-//    @Query("UPDATE cities_table SET name=:name WHERE id = :id")
-//    fun updateStatus(name: String, id: Int)
+    @Query("SELECT id FROM cities_table WHERE name=:name")
+    fun findIdByName(name: String): Int
+
+    @Query("UPDATE cities_table SET name=:name WHERE id = :id")
+    fun updateCityById(name: String, id: Int)
 
 }

@@ -24,6 +24,7 @@ class WeatherListFragment : Fragment() {
 
     private val weatherListViewModel: WeatherListViewModel by viewModels()
     private lateinit var binding : FragmentWeatherListBinding
+    private var currentCity = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,13 +38,27 @@ class WeatherListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        weatherListViewModel.updateWeather("Yazd")
         weatherListViewModel.getAllCitiesFromDB()
         weatherListViewModel.checkInternetConnectivity()
 
+        handleCurrentSelectedCity()
         setObservers()
         handleClickListeners()
 
+    }
+
+    private fun handleCurrentSelectedCity() {
+        currentCity = weatherListViewModel.retrieveCurrentSelectedCity(requireContext())
+        if(currentCity.isEmpty()){
+            binding.emptyList.visibility = View.VISIBLE
+            binding.frlMainHeader.visibility = View.GONE
+            binding.recyclerView.visibility = View.GONE
+        }else{
+            binding.emptyList.visibility = View.GONE
+            binding.frlMainHeader.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.VISIBLE
+            weatherListViewModel.updateWeather(currentCity)
+        }
     }
 
     private fun handleClickListeners() {
@@ -127,6 +142,25 @@ class WeatherListFragment : Fragment() {
         val adapter = WeatherItemAdapter(it,requireContext())
         binding.recyclerView.adapter = adapter
         adapter.notifyItemRangeInserted(0,it.size)
+        adapter.onCityNameClick = {
+            weatherListViewModel.storeCurrentSelectedCity(it.name,requireContext())
+            currentCity = it.name
+            weatherListViewModel.updateWeather(it.name)
+        }
+        adapter.onCityDeleteClick = {
+            if(currentCity == it.name){
+                Toast.makeText(context, getString(R.string.cant_delete_current_city), Toast.LENGTH_SHORT).show()
+            }else{
+                weatherListViewModel.removeCityFromDB(it)
+            }
+        }
+        adapter.onCityEditClick = {
+            val cityModifyFragment = CityModifyFragment()
+            val bundle = Bundle()
+            bundle.putString("city", it.name)
+            cityModifyFragment.arguments = bundle
+            (activity as MainActivity).replaceFragment(cityModifyFragment)
+        }
     }
 
 

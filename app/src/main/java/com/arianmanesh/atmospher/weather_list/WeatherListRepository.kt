@@ -1,6 +1,7 @@
 package com.arianmanesh.atmospher.weather_list
 
 import android.content.Context
+import android.util.Log
 import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.core.ApiService
 import com.arianmanesh.atmospher.core.ResponseResult
@@ -41,7 +42,14 @@ class WeatherListRepository () {
     }
 
     fun readAllCitiesFromDB(context: Context): ResponseResult<List<CitiesDBModel>>{
-        return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().getAllCities())
+
+        val cities = AtmosphereDataBase.getInstance(context).citiesDao().getAllCities();
+        for (x in cities) Log.e("TAFF2" , "cityid: " + x.id + " | cityname: " + x.name)
+        return ResponseResult.Success(cities)
+    }
+
+    fun removeCityFromDB(context: Context, city: CitiesDBModel){
+        ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().deleteCity(city))
     }
 
     fun storeCurrentSelectedCity(city: String, context: Context){
@@ -51,7 +59,7 @@ class WeatherListRepository () {
         editor.apply()
     }
 
-    fun retrieveCurrentSelectedCity(city: String, context: Context): String {
+    fun retrieveCurrentSelectedCity(context: Context): String {
         val preference = context.getSharedPreferences("app", Context.MODE_PRIVATE)
         return preference.getString("city","")!!
     }

@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.core.ResponseResult
 import kotlinx.coroutines.*
+import java.net.IDN
 import java.net.SocketTimeoutException
 
 class CityModifyViewModel(application: Application) : AndroidViewModel(application) {
@@ -15,12 +16,12 @@ class CityModifyViewModel(application: Application) : AndroidViewModel(applicati
     private val repository = CityModifyRepository()
     private val context : Application = application;
 
-    fun updateWeather(city: String) {
+    fun updateWeather(city: String, modifyMode: Boolean, previousCity: String) {
         viewModelScope.launch(Dispatchers.IO) {
 
             try {
                 _weatherData.postValue(ResponseResult.Loading())
-                when (val result = repository.getCityWeather(city,context)) {
+                when (val result = repository.getCityWeather(city, modifyMode, previousCity, context)) {
                     is ResponseResult.Success -> {
                         _weatherData.postValue(result)
                     }

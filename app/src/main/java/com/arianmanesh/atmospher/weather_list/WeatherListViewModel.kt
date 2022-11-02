@@ -68,6 +68,22 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    fun removeCityFromDB(city: CitiesDBModel){
+        viewModelScope.launch(Dispatchers.IO) {
+            _citiesData.postValue(ResponseResult.Loading())
+            repository.removeCityFromDB(context,city);
+            _citiesData.postValue(repository.readAllCitiesFromDB(context))
+        }
+    }
+
+    fun retrieveCurrentSelectedCity(context: Context): String{
+        return repository.retrieveCurrentSelectedCity(context)
+    }
+
+    fun storeCurrentSelectedCity(city: String,context: Context){
+        repository.storeCurrentSelectedCity(city,context)
+    }
+
     fun checkInternetConnectivity(){
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkRequest = NetworkRequest.Builder()

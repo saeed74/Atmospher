@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.arianmanesh.atmospher.R
 import com.arianmanesh.atmospher.core.ResponseResult
 import com.arianmanesh.atmospher.databinding.FragmentCityModifyBinding
 
@@ -15,6 +16,8 @@ class CityModifyFragment : Fragment() {
 
     private val cityModifyViewModel: CityModifyViewModel by viewModels()
     private lateinit var binding : FragmentCityModifyBinding
+    private var modifyMode = false;
+    private var previousCityName = "";
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,18 +30,34 @@ class CityModifyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getBundle()
         handleClickListeners()
         setObservers()
     }
 
+    private fun getBundle() {
+        val bundle = arguments
+        if (bundle != null) {
+            val city = bundle.getString("city")
+            if(city != null){
+                binding.edtCityName.setText(city)
+                previousCityName = city
+                modifyMode = true
+                binding.txtEdtLabel.text = getString(R.string.modify_city_name)
+            }
+        }
+    }
+
     private fun handleClickListeners() {
-        binding.button.setOnClickListener {
+        binding.btnSubmit.setOnClickListener {
             val cityName: String = binding.edtCityName.text.toString()
             if(cityName.isEmpty()) {
-                Toast.makeText(requireContext(),"Please Enter City Name",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),getString(R.string.city_name_cant_be_empty),Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            cityModifyViewModel.updateWeather(cityName)
+
+            cityModifyViewModel.updateWeather(cityName,modifyMode,previousCityName)
+
         }
     }
 
