@@ -10,7 +10,6 @@
     <string name="no_internet_connection">No internet connection (offline mode)</string>
     <string name="back_online">Back online</string>
     <string name="please_check_internet_connection">Please check internet connection</string>
-    <string name="appwidget_text">weather widget</string>
     <string name="add_widget">Add weather widget</string>
     <string name="app_widget_description">Atmosphere weather app widget</string>
 </resources>
