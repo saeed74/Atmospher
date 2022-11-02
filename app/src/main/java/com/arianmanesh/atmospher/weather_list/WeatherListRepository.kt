@@ -2,6 +2,7 @@ package com.arianmanesh.atmospher.weather_list
 
 import android.content.Context
 import android.util.Log
+import com.arianmanesh.atmospher.R
 import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.core.ApiService
 import com.arianmanesh.atmospher.core.ResponseResult
@@ -45,20 +46,23 @@ class WeatherListRepository () {
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().getAllCities())
     }
 
-    fun removeCityFromDB(context: Context, city: CitiesDBModel){
-        ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().deleteCity(city))
+    fun removeCityFromDB(context: Context, city: CitiesDBModel): ResponseResult<CitiesDBModel>{
+        if(AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity().name == city.name){
+            return ResponseResult.DataBaseError(context.getString(R.string.cant_delete_current_city))
+        }else{
+            AtmosphereDataBase.getInstance(context).citiesDao().deleteCity(city)
+            return ResponseResult.Success(city)
+        }
     }
 
+    //todo: mig to db
     fun storeCurrentSelectedCity(city: String, context: Context){
-        val preference = context.getSharedPreferences("app", Context.MODE_PRIVATE)
-        val editor = preference.edit()
-        editor.putString("city",city)
-        editor.apply()
-    }
 
-    fun retrieveCurrentSelectedCity(context: Context): String {
-        val preference = context.getSharedPreferences("app", Context.MODE_PRIVATE)
-        return preference.getString("city","")!!
     }
+//
+//    fun getCurrentSelectedCity(context: Context): String {
+//
+//        return
+//    }
 
 }

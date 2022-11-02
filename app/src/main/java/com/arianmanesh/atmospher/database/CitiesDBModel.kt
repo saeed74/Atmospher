@@ -14,4 +14,5 @@ class CitiesDBModel() {
     var last_updated: String = ""
     var temp_c: Long = 0
     var icon: String = ""
+    var selected: Int = 0
 }

@@ -21,6 +21,7 @@ import java.net.SocketTimeoutException
 class WeatherListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context : Application = application
+    private var toDeletePosition : Int = 0
 
     private val _weatherData = MutableLiveData<ResponseResult<WeatherItemResponse>>()
     val weatherData: LiveData<ResponseResult<WeatherItemResponse>>
@@ -29,6 +30,10 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
     private val _citiesData = MutableLiveData<ResponseResult<List<CitiesDBModel>>>()
     val citiesData: LiveData<ResponseResult<List<CitiesDBModel>>>
         get() = _citiesData
+
+    private val _cityDelete = MutableLiveData<ResponseResult<CitiesDBModel>>()
+    val cityDelete: LiveData<ResponseResult<CitiesDBModel>>
+        get() = _cityDelete
 
     private val repository = WeatherListRepository()
 
@@ -64,21 +69,27 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun removeCityFromDB(city: CitiesDBModel){
+    fun removeCityFromDB(city: CitiesDBModel , pos : Int){
         viewModelScope.launch(Dispatchers.IO) {
-            _citiesData.postValue(ResponseResult.Loading())
-            repository.removeCityFromDB(context,city);
-            _citiesData.postValue(repository.readAllCitiesFromDB(context))
+            _cityDelete.postValue(ResponseResult.Loading())
+            toDeletePosition = pos
+            _cityDelete.postValue(repository.removeCityFromDB(context,city))
+            //_cityDelete.postValue(repository.readAllCitiesFromDB(context))
         }
     }
 
-    fun retrieveCurrentSelectedCity(context: Context): String{
-        return repository.retrieveCurrentSelectedCity(context)
+    fun getRemovedPosition(): Int{
+        return toDeletePosition
     }
 
-    fun storeCurrentSelectedCity(city: String,context: Context){
-        repository.storeCurrentSelectedCity(city,context)
-    }
+    //todo: mig to db
+//    fun getCurrentSelectedCity(context: Context): String{
+//        return repository.getCurrentSelectedCity(context)
+//    }
+//
+//    fun storeCurrentSelectedCity(city: String,context: Context){
+//        repository.storeCurrentSelectedCity(city,context)
+//    }
 
 
 

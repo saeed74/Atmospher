@@ -7,6 +7,6 @@
     <string name="centigrade_sign">°C</string>
     <string name="cant_delete_current_city">You cannot delete currently selected city</string>
     <string name="city_name_cant_be_empty">City name cannot be empty</string>
-    <string name="no_internet_connection">No internet connection</string>
+    <string name="no_internet_connection">No internet connection (offline mode)</string>
     <string name="back_online">Back online</string>
 </resources>

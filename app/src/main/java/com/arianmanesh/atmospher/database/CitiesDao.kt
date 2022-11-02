@@ -26,4 +26,19 @@ interface CitiesDao {
     @Query("UPDATE cities_table SET name=:name WHERE id = :id")
     fun updateCityById(name: String, id: Int)
 
+    @Query("UPDATE cities_table SET selected = 1 WHERE name = :name")
+    fun setSelectedCity(name: String)
+
+    @Query("UPDATE cities_table SET selected = 0 WHERE selected = 1")
+    fun unsetLastSelectedCity()
+
+    @Query("SELECT EXISTS( SELECT * FROM cities_table WHERE selected = 1 )")
+    fun isAnyCityAlreadySelected(): Boolean
+
+    @Query("SELECT * FROM cities_table WHERE selected = 1")
+    fun getCurrentSelectedCity(): CitiesDBModel
+
+//    @Query("DELETE FROM cities_table WHERE id=:id")
+//    fun deleteCity(id: Int) : CitiesDBModel
+
 }

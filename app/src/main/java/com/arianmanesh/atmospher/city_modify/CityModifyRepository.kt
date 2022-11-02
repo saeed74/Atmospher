@@ -47,12 +47,12 @@ class CityModifyRepository () {
                 val citiesDBModel = convertToDBModel(body);
                 if(modifyMode){
                     val id = AtmosphereDataBase.getInstance(context).citiesDao().findIdByName(previousCity)
-                    Log.e("TAFF" , "id: " + id)
                     AtmosphereDataBase.getInstance(context).citiesDao().updateCityById(citiesDBModel.name,id)
                 }else{
                     AtmosphereDataBase.getInstance(context).citiesDao().insertCity(citiesDBModel)
                 }
-                storeCurrentSelectedCity(body.location.name.lowercase(),context)
+                AtmosphereDataBase.getInstance(context).citiesDao().unsetLastSelectedCity()
+                AtmosphereDataBase.getInstance(context).citiesDao().setSelectedCity(body.location.name.lowercase())
                 return ResponseResult.Success(body)
             }
         }
@@ -69,11 +69,12 @@ class CityModifyRepository () {
         return cityItem
     }
 
-    private fun storeCurrentSelectedCity(city: String, context: Context){
-        val preference = context.getSharedPreferences("app", Context.MODE_PRIVATE)
-        val editor = preference.edit()
-        editor.putString("city",city)
-        editor.apply()
-    }
+    //todo: mig to db
+//    private fun storeCurrentSelectedCity(city: String, context: Context){
+//        val preference = context.getSharedPreferences("app", Context.MODE_PRIVATE)
+//        val editor = preference.edit()
+//        editor.putString("city",city)
+//        editor.apply()
+//    }
 
 }

@@ -8,10 +8,10 @@ import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.database.CitiesDBModel
 import com.arianmanesh.atmospher.databinding.ItemWeatherListBinding
 
-class WeatherItemAdapter (private val weatherItems: List<CitiesDBModel>, private val context:Context): RecyclerView.Adapter<WeatherItemAdapter.WeatherItemViewHolder>() {
+class WeatherItemAdapter (private val weatherItems: ArrayList<CitiesDBModel>, private val context:Context): RecyclerView.Adapter<WeatherItemAdapter.WeatherItemViewHolder>() {
 
     var onCityNameClick: ((CitiesDBModel) -> Unit)? = null
-    var onCityDeleteClick: ((CitiesDBModel) -> Unit)? = null
+    var onCityDeleteClick: ((CitiesDBModel, Int) -> Unit)? = null
     var onCityEditClick: ((CitiesDBModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherItemViewHolder {
@@ -25,6 +25,11 @@ class WeatherItemAdapter (private val weatherItems: List<CitiesDBModel>, private
 
     override fun getItemCount(): Int {
         return weatherItems.size
+    }
+
+    fun removeItem(pos: Int){
+        notifyItemRemoved(pos)
+        weatherItems.removeAt(pos)
     }
 
     inner class WeatherItemViewHolder(private val binding: ItemWeatherListBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -41,7 +46,7 @@ class WeatherItemAdapter (private val weatherItems: List<CitiesDBModel>, private
                 onCityEditClick?.invoke(weatherItems[position])
             }
             binding.imgDeleteCity.setOnClickListener {
-                onCityDeleteClick?.invoke(weatherItems[position])
+                onCityDeleteClick?.invoke(weatherItems[position], position)
             }
         }
 

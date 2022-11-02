@@ -13,7 +13,7 @@ import androidx.lifecycle.MutableLiveData
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context : Application = application
-    private var internet = false;
+    private var internet = false
 
     private val _internetConnection = MutableLiveData<Boolean>()
     val internetConnection: LiveData<Boolean>
@@ -32,18 +32,24 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
             ) {
                 _internetConnection.postValue(false)
+                internet = false
+            }else{
+                internet = true
             }
         }
 
         manager.registerNetworkCallback(networkRequest, object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 _internetConnection.postValue(true)
+                internet = true
             }
             override fun onLost(network: Network) {
                 _internetConnection.postValue(false)
+                internet = false
             }
             override fun onUnavailable() {
                 _internetConnection.postValue(false)
+                internet = false
             }
         })
     }
