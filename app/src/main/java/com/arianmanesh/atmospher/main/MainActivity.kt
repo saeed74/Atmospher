@@ -1,10 +1,19 @@
 package com.arianmanesh.atmospher.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.arianmanesh.atmospher.databinding.ActivityMainBinding
 import com.arianmanesh.atmospher.weather_list.WeatherListFragment
+import android.R.attr.tag
+
+import android.R.attr.fragment
+
+import android.R
+import android.R.attr
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,23 +23,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        addFragment(WeatherListFragment())
+        addFragment(WeatherListFragment(), WeatherListFragment::class.simpleName!! )
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    fun addFragment(fragment: Fragment, fragmentTag: String) {
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
-        ft.replace(binding.fragmentHost.id , fragment)
-        ft.addToBackStack(fragment::class.java.simpleName)
+        ft.add(binding.fragmentHost.id , fragment,fragmentTag)
+        ft.addToBackStack(fragmentTag)
         ft.commit()
     }
 
-    private fun addFragment(fragment: Fragment) {
-        val fm = supportFragmentManager
-        val ft = fm.beginTransaction()
-        ft.add(binding.fragmentHost.id , fragment)
-        ft.commit()
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 1) {
+            supportFragmentManager.popBackStack()
+        } else {
+            finishAffinity()
+        }
     }
-
 
 }

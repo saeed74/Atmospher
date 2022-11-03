@@ -87,7 +87,7 @@ class WeatherListFragment : Fragment() {
 
     private fun handleClickListeners() {
         binding.floatingActionButton.setOnClickListener {
-            (activity as MainActivity).replaceFragment(CityModifyFragment())
+            (activity as MainActivity).addFragment(CityModifyFragment(), CityModifyFragment::class.simpleName!!)
         }
     }
 
@@ -239,7 +239,7 @@ class WeatherListFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString("city", it.name)
             cityModifyFragment.arguments = bundle
-            (activity as MainActivity).replaceFragment(cityModifyFragment)
+            (activity as MainActivity).addFragment(cityModifyFragment, CityModifyFragment::class.simpleName!!)
         }
     }
 
