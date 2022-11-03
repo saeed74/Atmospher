@@ -19,8 +19,8 @@ class CityModifyFragment : Fragment() {
     private val cityModifyViewModel: CityModifyViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var binding : FragmentCityModifyBinding
-    private var modifyMode = false;
-    private var previousCityName = "";
+    private var modifyMode = false
+    private var previousCityName = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,

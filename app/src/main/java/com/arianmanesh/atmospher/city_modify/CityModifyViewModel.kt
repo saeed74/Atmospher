@@ -14,7 +14,7 @@ class CityModifyViewModel(application: Application) : AndroidViewModel(applicati
     val weatherData: LiveData<ResponseResult<WeatherItemResponse>>
         get() = _weatherData
     private val repository = CityModifyRepository()
-    private val context : Application = application;
+    private val context : Application = application
 
     fun updateWeather(city: String, modifyMode: Boolean, previousCity: String) {
         viewModelScope.launch(Dispatchers.IO) {

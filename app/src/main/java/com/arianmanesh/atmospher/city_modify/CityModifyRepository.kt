@@ -5,6 +5,7 @@ import android.util.Log
 import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.core.ApiService
 import com.arianmanesh.atmospher.core.ResponseResult
+import com.arianmanesh.atmospher.core.RetrofitInstance
 import com.arianmanesh.atmospher.database.AtmosphereDataBase
 import com.arianmanesh.atmospher.database.CitiesDBModel
 import retrofit2.Retrofit
@@ -12,9 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class CityModifyRepository () {
 
-    private lateinit var retrofit: Retrofit
-    private lateinit var apiService : ApiService
-    private val apiKey = "db7fff764dff4213a58103931220111"
 
     suspend fun getCityWeather(city: String, modifyMode: Boolean, previousCity: String, context: Context): ResponseResult<WeatherItemResponse> {
 
@@ -32,14 +30,7 @@ class CityModifyRepository () {
 
     private suspend fun requestByRetrofit(city: String, modifyMode: Boolean, previousCity: String, context: Context) : ResponseResult<WeatherItemResponse>{
 
-        retrofit = Retrofit.Builder()
-            .baseUrl("https://api.weatherapi.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        apiService = retrofit.create(ApiService::class.java)
-
-        val response = apiService.getWeatherDetail(apiKey,city)
+        val response = RetrofitInstance.api.getWeatherDetail(RetrofitInstance.apiKey,city)
         if (response.isSuccessful) {
             val body = response.body()
             if (body != null) {
