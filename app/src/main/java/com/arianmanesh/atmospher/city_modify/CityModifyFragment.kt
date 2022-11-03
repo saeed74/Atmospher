@@ -94,7 +94,7 @@ class CityModifyFragment : Fragment() {
                     }
                 }
                 is ResponseResult.Loading -> {
-                    //todo: better show loading
+                    //todo: show a better loading
                     binding.txtShowState.text = "loading"
                 }
             }

@@ -61,12 +61,4 @@ class CityModifyRepository () {
         return cityItem
     }
 
-    //todo: mig to db
-//    private fun storeCurrentSelectedCity(city: String, context: Context){
-//        val preference = context.getSharedPreferences("app", Context.MODE_PRIVATE)
-//        val editor = preference.edit()
-//        editor.putString("city",city)
-//        editor.apply()
-//    }
-
 }

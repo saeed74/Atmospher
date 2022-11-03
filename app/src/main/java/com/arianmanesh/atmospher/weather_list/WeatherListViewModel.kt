@@ -109,23 +109,11 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
             _cityDelete.postValue(ResponseResult.Loading())
             toDeletePosition = pos
             _cityDelete.postValue(repository.removeCityFromDB(context,city))
-            //_cityDelete.postValue(repository.readAllCitiesFromDB(context))
         }
     }
 
     fun getRemovedPosition(): Int{
         return toDeletePosition
     }
-
-    //todo: mig to db
-//    fun getCurrentSelectedCity(context: Context): String{
-//        return repository.getCurrentSelectedCity(context)
-//    }
-//
-//    fun storeCurrentSelectedCity(city: String,context: Context){
-//        repository.storeCurrentSelectedCity(city,context)
-//    }
-
-
 
 }

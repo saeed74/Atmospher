@@ -216,11 +216,9 @@ class WeatherListFragment : Fragment() {
         adapter.notifyItemRangeInserted(0,it.size)
         adapter.onCityNameClick = {
 
-            //todo: mig to viewmodel (DONEEE)
             weatherListViewModel.unsetLastSelectedCity()
             weatherListViewModel.setSelectedCity(it.name.lowercase().trim())
 
-            //currentCity = it.name
             if(sharedViewModel.checkInternetState()){
                 weatherListViewModel.updateWeather(it.name)
             }else{
