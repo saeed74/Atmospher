@@ -23,6 +23,7 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
 
     private val context : Application = application
     private var toDeletePosition : Int = 0
+    //lateinit var deleteJob : Job
 
     private val _weatherData = MutableLiveData<ResponseResult<WeatherItemResponse>>()
     val weatherData: LiveData<ResponseResult<WeatherItemResponse>>
@@ -71,6 +72,10 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun removeCityFromDB(city: CitiesDBModel , pos : Int){
+//        if(this::deleteJob.isInitialized && deleteJob.isActive){
+//            deleteJob.cancel()
+//        }
+//        deleteJob = Job()
         viewModelScope.launch(Dispatchers.IO) {
             _cityDelete.postValue(ResponseResult.Loading())
             toDeletePosition = pos

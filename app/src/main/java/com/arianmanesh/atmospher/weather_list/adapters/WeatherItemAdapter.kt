@@ -28,8 +28,8 @@ class WeatherItemAdapter (private val weatherItems: ArrayList<CitiesDBModel>, pr
     }
 
     fun removeItem(pos: Int){
-        notifyItemRemoved(pos)
         weatherItems.removeAt(pos)
+        notifyDataSetChanged()
     }
 
     inner class WeatherItemViewHolder(private val binding: ItemWeatherListBinding) : RecyclerView.ViewHolder(binding.root) {
