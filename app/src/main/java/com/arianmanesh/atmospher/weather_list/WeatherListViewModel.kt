@@ -68,7 +68,7 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
 
     }
 
-    fun fetchEveryThingAboutWeatherList(){
+    fun fetchAllWeatherListAndCurrentCity(){
         viewModelScope.launch(Dispatchers.IO) {
             val allData = repository.readAllCitiesFromDB(context)
             _citiesData.postValue(allData)
@@ -83,6 +83,10 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
             }
         }
     }
+
+//    suspend fun getCurrentCityFromDB(){
+//        _currentSelectedCity.postValue(repository.getCurrentSelectedCity(context))
+//    }
 
     fun unsetLastSelectedCity(){
         viewModelScope.launch(Dispatchers.IO) {

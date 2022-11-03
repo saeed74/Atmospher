@@ -6,37 +6,37 @@ import androidx.room.*
 interface CitiesDao {
 
     @Query("SELECT * FROM cities_table")
-    fun getAllCities(): List<CitiesDBModel>
+    suspend fun getAllCities(): List<CitiesDBModel>
 
     @Query("SELECT EXISTS( SELECT * FROM cities_table WHERE name=:name )")
-    fun isCityExist(name: String): Boolean
+    suspend fun isCityExist(name: String): Boolean
 
     @Insert
-    fun insertCity(city: CitiesDBModel)
+    suspend fun insertCity(city: CitiesDBModel)
 
     @Update
-    fun updateCity(city: CitiesDBModel)
+    suspend fun updateCity(city: CitiesDBModel)
 
     @Delete
-    fun deleteCity(city: CitiesDBModel)
+    suspend fun deleteCity(city: CitiesDBModel)
 
     @Query("SELECT id FROM cities_table WHERE name=:name")
-    fun findIdByName(name: String): Int
+    suspend fun findIdByName(name: String): Int
 
     @Query("UPDATE cities_table SET name=:name, country=:country WHERE id = :id")
-    fun updateCityById(country: String, name: String, id: Int)
+    suspend fun updateCityById(country: String, name: String, id: Int)
 
     @Query("UPDATE cities_table SET selected = 1 WHERE name = :name")
-    fun setSelectedCity(name: String)
+    suspend fun setSelectedCity(name: String)
 
     @Query("UPDATE cities_table SET selected = 0 WHERE selected = 1")
-    fun unsetLastSelectedCity()
+    suspend fun unsetLastSelectedCity()
 
     @Query("SELECT EXISTS( SELECT * FROM cities_table WHERE selected = 1 )")
-    fun isAnyCityAlreadySelected(): Boolean
+    suspend fun isAnyCityAlreadySelected(): Boolean
 
     @Query("SELECT * FROM cities_table WHERE selected = 1")
-    fun getCurrentSelectedCity(): CitiesDBModel
+    suspend fun getCurrentSelectedCity(): CitiesDBModel
 
 //    @Query("DELETE FROM cities_table WHERE id=:id")
 //    fun deleteCity(id: Int) : CitiesDBModel

@@ -31,11 +31,11 @@ class WeatherListRepository () {
 
     }
 
-    fun readAllCitiesFromDB(context: Context): ResponseResult<List<CitiesDBModel>>{
+    suspend fun readAllCitiesFromDB(context: Context): ResponseResult<List<CitiesDBModel>>{
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().getAllCities())
     }
 
-    fun removeCityFromDB(context: Context, city: CitiesDBModel): ResponseResult<CitiesDBModel>{
+    suspend fun removeCityFromDB(context: Context, city: CitiesDBModel): ResponseResult<CitiesDBModel>{
         if(AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity().name == city.name){
             return ResponseResult.DataBaseError(context.getString(R.string.cant_delete_current_city))
         }else{
@@ -44,15 +44,15 @@ class WeatherListRepository () {
         }
     }
 
-    fun getCurrentSelectedCity(context: Context): ResponseResult<CitiesDBModel>{
+    suspend fun getCurrentSelectedCity(context: Context): ResponseResult<CitiesDBModel>{
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity())
     }
 
-    fun unsetLastSelectedCity(context: Context): ResponseResult<Unit>{
+    suspend fun unsetLastSelectedCity(context: Context): ResponseResult<Unit>{
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().unsetLastSelectedCity())
     }
 
-    fun setSelectedCity(city: String, context: Context): ResponseResult<Unit>{
+    suspend fun setSelectedCity(city: String, context: Context): ResponseResult<Unit>{
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().setSelectedCity(city))
     }
 

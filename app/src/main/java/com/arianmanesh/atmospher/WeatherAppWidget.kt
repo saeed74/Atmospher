@@ -50,18 +50,18 @@ internal fun updateAppWidget(
 
     val views = RemoteViews(context.packageName, R.layout.weather_app_widget)
 
-    if(!atmosphereDB.citiesDao().isAnyCityAlreadySelected()) {
-        views.setViewVisibility(R.id.lnlWidgetDataContainer, View.GONE)
-        views.setViewVisibility(R.id.txtWidgetStatus, View.VISIBLE)
-        appWidgetManager.updateAppWidget(appWidgetId, views)
-        return
-    }
-
-    views.setViewVisibility(R.id.txtWidgetStatus, View.GONE)
-    views.setViewVisibility(R.id.prgLoading, View.VISIBLE)
-    val currentCity = atmosphereDB.citiesDao().getCurrentSelectedCity()
-
     GlobalScope.launch(Dispatchers.IO) {
+
+        if(!atmosphereDB.citiesDao().isAnyCityAlreadySelected()) {
+            views.setViewVisibility(R.id.lnlWidgetDataContainer, View.GONE)
+            views.setViewVisibility(R.id.txtWidgetStatus, View.VISIBLE)
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+            return@launch
+        }
+
+        views.setViewVisibility(R.id.txtWidgetStatus, View.GONE)
+        views.setViewVisibility(R.id.prgLoading, View.VISIBLE)
+        val currentCity = atmosphereDB.citiesDao().getCurrentSelectedCity()
 
         val response = RetrofitInstance.api.getWeatherDetail(RetrofitInstance.apiKey,currentCity.name)
 

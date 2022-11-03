@@ -48,7 +48,7 @@ class WeatherListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        weatherListViewModel.fetchEveryThingAboutWeatherList()
+        weatherListViewModel.fetchAllWeatherListAndCurrentCity()
         sharedViewModel.checkInternetConnectivity()
 
 //        handleCurrentSelectedCity()
@@ -124,9 +124,7 @@ class WeatherListFragment : Fragment() {
                         if(binding.crdInternetNotifContainer.visibility == View.VISIBLE){
                             binding.crdInternetNotifContainer.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.success))
                             binding.txtInternetNotif.text = getString(R.string.back_online)
-                            //todo: go to viewModel?
-                            val currentCity = AtmosphereDataBase.getInstance(requireContext()).citiesDao().getCurrentSelectedCity()
-                            if(!currentCity.name.isEmpty()) weatherListViewModel.updateWeather(currentCity.name)
+                            weatherListViewModel.fetchAllWeatherListAndCurrentCity()
                             viewLifecycleOwner.lifecycleScope.launch {
                                 delay(3000)
                                 binding.crdInternetNotifContainer.visibility = View.GONE
@@ -157,8 +155,7 @@ class WeatherListFragment : Fragment() {
         })
 
         sharedViewModel.updateWeatherFragment.observe(viewLifecycleOwner, Observer {
-            weatherListViewModel.fetchEveryThingAboutWeatherList()
-//            handleCurrentSelectedCity()
+            weatherListViewModel.fetchAllWeatherListAndCurrentCity()
         })
 
         weatherListViewModel.currentSelectedCity.observe(viewLifecycleOwner, Observer {

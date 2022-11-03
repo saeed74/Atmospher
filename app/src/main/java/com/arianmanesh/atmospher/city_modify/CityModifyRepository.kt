@@ -25,7 +25,7 @@ class CityModifyRepository () {
 
     }
 
-    private fun checkCityExist(city: String, context: Context) : Boolean{
+    private suspend fun checkCityExist(city: String, context: Context) : Boolean{
         return AtmosphereDataBase.getInstance(context).citiesDao().isCityExist(city.lowercase())
     }
 
