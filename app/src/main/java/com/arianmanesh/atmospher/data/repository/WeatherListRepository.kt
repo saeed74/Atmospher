@@ -32,8 +32,14 @@ class WeatherListRepository () {
 
     suspend fun removeCityFromDB(context: Context, city: CitiesDBModel): ResponseResult<CitiesDBModel> {
 
-        val selectedCity = AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity().name
-        if(selectedCity == city.name){
+        if(!AtmosphereDataBase.getInstance(context).citiesDao().isAnyCityAlreadySelected()){
+            var cities = AtmosphereDataBase.getInstance(context).citiesDao().getAllCities()
+            if(cities.size > 0){
+                AtmosphereDataBase.getInstance(context).citiesDao().setSelectedCity(cities[0].name)
+            }
+        }
+
+        if(AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity().name == city.name){
             return ResponseResult.DataBaseError(context.getString(R.string.cant_delete_current_city))
         }else{
             AtmosphereDataBase.getInstance(context).citiesDao().deleteCity(city)

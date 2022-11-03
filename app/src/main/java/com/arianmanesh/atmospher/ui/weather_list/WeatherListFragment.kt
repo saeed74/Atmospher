@@ -173,8 +173,8 @@ class WeatherListFragment : Fragment() {
                             binding.recyclerView.visibility = View.VISIBLE
                             weatherListViewModel.updateWeather(city.name)
                         }else{
-                            weatherListViewModel.unsetLastSelectedCity()
-                            weatherListViewModel.setSelectedCity(city.name.lowercase().trim())
+//                            weatherListViewModel.unsetLastSelectedCity()
+//                            weatherListViewModel.setSelectedCity(city.name.lowercase().trim())
                             binding.emptyList.visibility = View.GONE
                             binding.frlMainHeader.visibility = View.VISIBLE
                             binding.recyclerView.visibility = View.VISIBLE
@@ -237,8 +237,6 @@ class WeatherListFragment : Fragment() {
         adapter.notifyItemRangeInserted(0,it.size)
         adapter.onCityNameClick = {
 
-            weatherListViewModel.unsetLastSelectedCity()
-            weatherListViewModel.setSelectedCity(it.name.lowercase().trim())
 
             if(sharedViewModel.checkInternetState()){
                 weatherListViewModel.updateWeather(it.name)
