@@ -36,10 +36,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 1) {
-            supportFragmentManager.popBackStack()
+            popBackStack()
         } else {
             finishAffinity()
         }
+    }
+
+    fun popBackStack(){
+        supportFragmentManager.popBackStack()
     }
 
 }

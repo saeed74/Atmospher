@@ -19,6 +19,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     val internetConnection: LiveData<Boolean>
         get() = _internetConnection
 
+    private val _updateWeatherFragment = MutableLiveData<Unit>()
+    val updateWeatherFragment: LiveData<Unit>
+        get() = _updateWeatherFragment
+
     fun checkInternetConnectivity(){
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkRequest = NetworkRequest.Builder()
@@ -56,6 +60,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     fun checkInternetState() : Boolean{
         return internet
+    }
+
+    fun updateWeatherFragment(){
+        _updateWeatherFragment.postValue(Unit)
     }
 
 }

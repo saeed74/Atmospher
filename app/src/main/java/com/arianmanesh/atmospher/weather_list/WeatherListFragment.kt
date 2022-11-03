@@ -178,6 +178,12 @@ class WeatherListFragment : Fragment() {
                 else -> {}
             }
         })
+
+        sharedViewModel.updateWeatherFragment.observe(viewLifecycleOwner, Observer {
+            weatherListViewModel.getAllCitiesFromDB()
+            handleCurrentSelectedCity()
+        })
+
     }
 
     private fun updateHeaderUi(country: String, city: String, temperature: String, icon: String) {

@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.arianmanesh.atmospher.R
 import com.arianmanesh.atmospher.core.ResponseResult
 import com.arianmanesh.atmospher.databinding.FragmentCityModifyBinding
+import com.arianmanesh.atmospher.main.MainActivity
 import com.arianmanesh.atmospher.main.SharedViewModel
 import java.net.HttpURLConnection
 
@@ -74,7 +75,9 @@ class CityModifyFragment : Fragment() {
             when (response) {
                 is ResponseResult.Success -> {
                     response.data?.let {
-                        binding.txtShowState.text = "SUCCESS: " + it.location.name
+                        //binding.txtShowState.text = "SUCCESS: " + it.location.name
+                        sharedViewModel.updateWeatherFragment()
+                        (activity as MainActivity).popBackStack()
                     }
                 }
                 is ResponseResult.Error -> {
