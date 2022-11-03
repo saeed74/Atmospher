@@ -31,16 +31,15 @@ class CityModifyRepository () {
 
     private suspend fun requestByRetrofit(city: String, modifyMode: Boolean, previousCity: String, context: Context) : ResponseResult<WeatherItemResponse>{
 
-        Log.e("TAG1","req: " + city)
         val response = RetrofitInstance.api.getWeatherDetail(RetrofitInstance.apiKey,city)
         if (response.isSuccessful) {
             val body = response.body()
             if (body != null) {
                 //Save to DataBase and change current selected city
-                val citiesDBModel = convertToDBModel(body);
+                val citiesDBModel = convertToDBModel(body)
                 if(modifyMode){
                     val id = AtmosphereDataBase.getInstance(context).citiesDao().findIdByName(previousCity)
-                    AtmosphereDataBase.getInstance(context).citiesDao().updateCityById(citiesDBModel.name,id)
+                    AtmosphereDataBase.getInstance(context).citiesDao().updateCityById(citiesDBModel.country,citiesDBModel.name,id)
                 }else{
                     AtmosphereDataBase.getInstance(context).citiesDao().insertCity(citiesDBModel)
                 }

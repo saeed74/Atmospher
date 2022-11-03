@@ -23,8 +23,8 @@ interface CitiesDao {
     @Query("SELECT id FROM cities_table WHERE name=:name")
     fun findIdByName(name: String): Int
 
-    @Query("UPDATE cities_table SET name=:name WHERE id = :id")
-    fun updateCityById(name: String, id: Int)
+    @Query("UPDATE cities_table SET name=:name, country=:country WHERE id = :id")
+    fun updateCityById(country: String, name: String, id: Int)
 
     @Query("UPDATE cities_table SET selected = 1 WHERE name = :name")
     fun setSelectedCity(name: String)
