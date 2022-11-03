@@ -1,4 +1,4 @@
-package com.arianmanesh.atmospher.main
+package com.arianmanesh.atmospher.ui.main
 
 import android.app.Application
 import android.content.Context

@@ -1,11 +1,10 @@
-package com.arianmanesh.atmospher.weather_list.adapters
+package com.arianmanesh.atmospher.ui.weather_list.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arianmanesh.atmospher.WeatherItemResponse
-import com.arianmanesh.atmospher.database.CitiesDBModel
+import com.arianmanesh.atmospher.data.model.CitiesDBModel
 import com.arianmanesh.atmospher.databinding.ItemWeatherListBinding
 
 class WeatherItemAdapter (private val weatherItems: ArrayList<CitiesDBModel>, private val context:Context): RecyclerView.Adapter<WeatherItemAdapter.WeatherItemViewHolder>() {
@@ -34,7 +33,7 @@ class WeatherItemAdapter (private val weatherItems: ArrayList<CitiesDBModel>, pr
 
     inner class WeatherItemViewHolder(private val binding: ItemWeatherListBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindItem(position: Int,cityItem: CitiesDBModel, context: Context){
+        fun bindItem(position: Int, cityItem: CitiesDBModel, context: Context){
             binding.txtCityName.text = buildCityText(cityItem)
             binding.txtCityName.setOnClickListener {
                 onCityNameClick?.invoke(weatherItems[position])

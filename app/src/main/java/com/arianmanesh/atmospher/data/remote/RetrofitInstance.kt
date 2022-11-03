@@ -1,4 +1,4 @@
-package com.arianmanesh.atmospher.core
+package com.arianmanesh.atmospher.data.remote
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

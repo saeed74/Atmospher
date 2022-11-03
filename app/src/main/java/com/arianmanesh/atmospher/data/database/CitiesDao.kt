@@ -1,6 +1,7 @@
-package com.arianmanesh.atmospher.database
+package com.arianmanesh.atmospher.data.database
 
 import androidx.room.*
+import com.arianmanesh.atmospher.data.model.CitiesDBModel
 
 @Dao
 interface CitiesDao {

@@ -1,9 +1,10 @@
-package com.arianmanesh.atmospher.database
+package com.arianmanesh.atmospher.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.arianmanesh.atmospher.data.model.CitiesDBModel
 
 @Database(entities = [CitiesDBModel::class], version = 1)
 abstract class AtmosphereDataBase(): RoomDatabase() {

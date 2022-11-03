@@ -1,18 +1,10 @@
-package com.arianmanesh.atmospher.main
+package com.arianmanesh.atmospher.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.arianmanesh.atmospher.databinding.ActivityMainBinding
-import com.arianmanesh.atmospher.weather_list.WeatherListFragment
-import android.R.attr.tag
-
-import android.R.attr.fragment
-
-import android.R
-import android.R.attr
+import com.arianmanesh.atmospher.ui.weather_list.WeatherListFragment
 
 
 class MainActivity : AppCompatActivity() {

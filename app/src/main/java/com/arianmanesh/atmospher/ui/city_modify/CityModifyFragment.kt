@@ -1,4 +1,4 @@
-package com.arianmanesh.atmospher.city_modify
+package com.arianmanesh.atmospher.ui.city_modify
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.arianmanesh.atmospher.R
-import com.arianmanesh.atmospher.core.ResponseResult
+import com.arianmanesh.atmospher.data.remote.ResponseResult
 import com.arianmanesh.atmospher.databinding.FragmentCityModifyBinding
-import com.arianmanesh.atmospher.main.MainActivity
-import com.arianmanesh.atmospher.main.SharedViewModel
+import com.arianmanesh.atmospher.ui.main.MainActivity
+import com.arianmanesh.atmospher.ui.main.SharedViewModel
 import java.net.HttpURLConnection
 
 class CityModifyFragment : Fragment() {

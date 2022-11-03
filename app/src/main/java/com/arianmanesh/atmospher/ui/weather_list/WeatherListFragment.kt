@@ -1,10 +1,9 @@
-package com.arianmanesh.atmospher.weather_list
+package com.arianmanesh.atmospher.ui.weather_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -13,16 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arianmanesh.atmospher.core.ResponseResult
+import com.arianmanesh.atmospher.data.remote.ResponseResult
 import com.arianmanesh.atmospher.databinding.FragmentWeatherListBinding
-import com.arianmanesh.atmospher.city_modify.CityModifyFragment
-import com.arianmanesh.atmospher.main.MainActivity
+import com.arianmanesh.atmospher.ui.main.MainActivity
 import com.arianmanesh.atmospher.R
-import com.arianmanesh.atmospher.WeatherItemResponse
-import com.arianmanesh.atmospher.database.AtmosphereDataBase
-import com.arianmanesh.atmospher.database.CitiesDBModel
-import com.arianmanesh.atmospher.main.SharedViewModel
-import com.arianmanesh.atmospher.weather_list.adapters.WeatherItemAdapter
+import com.arianmanesh.atmospher.data.model.CitiesDBModel
+import com.arianmanesh.atmospher.ui.main.SharedViewModel
+import com.arianmanesh.atmospher.ui.city_modify.CityModifyFragment
+import com.arianmanesh.atmospher.ui.weather_list.adapters.WeatherItemAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
 import java.net.HttpURLConnection

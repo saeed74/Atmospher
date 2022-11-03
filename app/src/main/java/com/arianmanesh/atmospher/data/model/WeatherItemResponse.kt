@@ -1,7 +1,5 @@
 package com.arianmanesh.atmospher
 
-import com.arianmanesh.atmospher.database.CitiesDBModel
-
 data class WeatherItemResponse (
     val location: Location,
     val current: Current

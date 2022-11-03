@@ -1,4 +1,4 @@
-package com.arianmanesh.atmospher.core
+package com.arianmanesh.atmospher.data.remote
 
 import com.arianmanesh.atmospher.WeatherItemResponse
 import retrofit2.Call

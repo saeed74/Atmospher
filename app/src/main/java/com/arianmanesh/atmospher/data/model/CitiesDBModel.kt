@@ -1,9 +1,7 @@
-package com.arianmanesh.atmospher.database
+package com.arianmanesh.atmospher.data.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.arianmanesh.atmospher.Condition
 
 @Entity(tableName = "cities_table")
 class CitiesDBModel() {

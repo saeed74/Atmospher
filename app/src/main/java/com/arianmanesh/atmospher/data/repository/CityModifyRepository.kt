@@ -1,16 +1,11 @@
-package com.arianmanesh.atmospher.city_modify
+package com.arianmanesh.atmospher.data.repository
 
 import android.content.Context
-import android.security.AppUriAuthenticationPolicy
-import android.util.Log
 import com.arianmanesh.atmospher.WeatherItemResponse
-import com.arianmanesh.atmospher.core.ApiService
-import com.arianmanesh.atmospher.core.ResponseResult
-import com.arianmanesh.atmospher.core.RetrofitInstance
-import com.arianmanesh.atmospher.database.AtmosphereDataBase
-import com.arianmanesh.atmospher.database.CitiesDBModel
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.arianmanesh.atmospher.data.remote.ResponseResult
+import com.arianmanesh.atmospher.data.remote.RetrofitInstance
+import com.arianmanesh.atmospher.data.database.AtmosphereDataBase
+import com.arianmanesh.atmospher.data.model.CitiesDBModel
 
 class CityModifyRepository () {
 
@@ -29,7 +24,7 @@ class CityModifyRepository () {
         return AtmosphereDataBase.getInstance(context).citiesDao().isCityExist(city.lowercase())
     }
 
-    private suspend fun requestByRetrofit(city: String, modifyMode: Boolean, previousCity: String, context: Context) : ResponseResult<WeatherItemResponse>{
+    private suspend fun requestByRetrofit(city: String, modifyMode: Boolean, previousCity: String, context: Context) : ResponseResult<WeatherItemResponse> {
 
         val response = RetrofitInstance.api.getWeatherDetail(RetrofitInstance.apiKey,city)
         if (response.isSuccessful) {
@@ -51,7 +46,7 @@ class CityModifyRepository () {
         return ResponseResult.Error(response.code(),response.errorBody())
     }
 
-    private fun convertToDBModel(body: WeatherItemResponse): CitiesDBModel{
+    private fun convertToDBModel(body: WeatherItemResponse): CitiesDBModel {
         val cityItem = CitiesDBModel()
         cityItem.name = body.location.name.lowercase()
         cityItem.country = body.location.country

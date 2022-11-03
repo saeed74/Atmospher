@@ -1,15 +1,14 @@
-package com.arianmanesh.atmospher.city_modify
+package com.arianmanesh.atmospher.ui.city_modify
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.arianmanesh.atmospher.WeatherItemResponse
-import com.arianmanesh.atmospher.core.ResponseResult
+import com.arianmanesh.atmospher.data.repository.CityModifyRepository
+import com.arianmanesh.atmospher.data.remote.ResponseResult
 import kotlinx.coroutines.*
 import java.net.HttpURLConnection
-import java.net.IDN
 import java.net.SocketTimeoutException
-import kotlin.math.log
 
 class CityModifyViewModel(application: Application) : AndroidViewModel(application) {
 

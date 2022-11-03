@@ -1,19 +1,14 @@
-package com.arianmanesh.atmospher.weather_list
+package com.arianmanesh.atmospher.ui.weather_list
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.ConnectivityManager.NetworkCallback
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arianmanesh.atmospher.WeatherItemResponse
-import com.arianmanesh.atmospher.core.ResponseResult
-import com.arianmanesh.atmospher.database.CitiesDBModel
+import com.arianmanesh.atmospher.data.remote.ResponseResult
+import com.arianmanesh.atmospher.data.model.CitiesDBModel
+import com.arianmanesh.atmospher.data.repository.WeatherListRepository
 import kotlinx.coroutines.*
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
@@ -100,7 +95,7 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun removeCityFromDB(city: CitiesDBModel , pos : Int){
+    fun removeCityFromDB(city: CitiesDBModel, pos : Int){
 //        if(this::deleteJob.isInitialized && deleteJob.isActive){
 //            deleteJob.cancel()
 //        }

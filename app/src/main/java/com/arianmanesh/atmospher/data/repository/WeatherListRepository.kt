@@ -1,18 +1,12 @@
-package com.arianmanesh.atmospher.weather_list
+package com.arianmanesh.atmospher.data.repository
 
 import android.content.Context
-import android.util.Log
 import com.arianmanesh.atmospher.R
 import com.arianmanesh.atmospher.WeatherItemResponse
-import com.arianmanesh.atmospher.core.ApiService
-import com.arianmanesh.atmospher.core.ResponseResult
-import com.arianmanesh.atmospher.core.RetrofitInstance
-import com.arianmanesh.atmospher.database.AtmosphereDataBase
-import com.arianmanesh.atmospher.database.CitiesDBModel
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import com.arianmanesh.atmospher.data.remote.ResponseResult
+import com.arianmanesh.atmospher.data.remote.RetrofitInstance
+import com.arianmanesh.atmospher.data.database.AtmosphereDataBase
+import com.arianmanesh.atmospher.data.model.CitiesDBModel
 
 class WeatherListRepository () {
 
@@ -31,11 +25,11 @@ class WeatherListRepository () {
 
     }
 
-    suspend fun readAllCitiesFromDB(context: Context): ResponseResult<List<CitiesDBModel>>{
+    suspend fun readAllCitiesFromDB(context: Context): ResponseResult<List<CitiesDBModel>> {
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().getAllCities())
     }
 
-    suspend fun removeCityFromDB(context: Context, city: CitiesDBModel): ResponseResult<CitiesDBModel>{
+    suspend fun removeCityFromDB(context: Context, city: CitiesDBModel): ResponseResult<CitiesDBModel> {
         if(AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity().name == city.name){
             return ResponseResult.DataBaseError(context.getString(R.string.cant_delete_current_city))
         }else{
@@ -44,15 +38,15 @@ class WeatherListRepository () {
         }
     }
 
-    suspend fun getCurrentSelectedCity(context: Context): ResponseResult<CitiesDBModel>{
+    suspend fun getCurrentSelectedCity(context: Context): ResponseResult<CitiesDBModel> {
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity())
     }
 
-    suspend fun unsetLastSelectedCity(context: Context): ResponseResult<Unit>{
+    suspend fun unsetLastSelectedCity(context: Context): ResponseResult<Unit> {
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().unsetLastSelectedCity())
     }
 
-    suspend fun setSelectedCity(city: String, context: Context): ResponseResult<Unit>{
+    suspend fun setSelectedCity(city: String, context: Context): ResponseResult<Unit> {
         return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().setSelectedCity(city))
     }
 

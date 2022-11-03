@@ -1,4 +1,4 @@
-package com.arianmanesh.atmospher
+package com.arianmanesh.atmospher.widget
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -6,9 +6,9 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
-import com.arianmanesh.atmospher.core.ResponseResult
-import com.arianmanesh.atmospher.core.RetrofitInstance
-import com.arianmanesh.atmospher.database.AtmosphereDataBase
+import com.arianmanesh.atmospher.R
+import com.arianmanesh.atmospher.data.remote.RetrofitInstance
+import com.arianmanesh.atmospher.data.database.AtmosphereDataBase
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.AppWidgetTarget
 import kotlinx.coroutines.Dispatchers
@@ -43,8 +43,6 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-
-    Log.e("TAG_W","Widget update started")
 
     atmosphereDB = AtmosphereDataBase.getInstance(context)
 
