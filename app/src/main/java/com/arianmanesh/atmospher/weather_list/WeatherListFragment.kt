@@ -48,41 +48,13 @@ class WeatherListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        weatherListViewModel.getAllCitiesFromDB()
+        weatherListViewModel.fetchEveryThingAboutWeatherList()
         sharedViewModel.checkInternetConnectivity()
 
-        handleCurrentSelectedCity()
+//        handleCurrentSelectedCity()
         setObservers()
         handleClickListeners()
 
-    }
-
-    private fun handleCurrentSelectedCity() {
-        //todo: mig to db done
-        val emptySelection = AtmosphereDataBase.getInstance(requireContext()).citiesDao().isAnyCityAlreadySelected()
-        if(!emptySelection){
-            binding.emptyList.visibility = View.VISIBLE
-            binding.frlMainHeader.visibility = View.GONE
-            binding.recyclerView.visibility = View.GONE
-        }else{
-            val city = AtmosphereDataBase.getInstance(requireContext()).citiesDao().getCurrentSelectedCity()
-            if(sharedViewModel.checkInternetState()){
-                //currentCity = AtmosphereDataBase.getInstance(requireContext()).citiesDao().getCurrentSelectedCity()
-                binding.emptyList.visibility = View.GONE
-                binding.frlMainHeader.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.VISIBLE
-                weatherListViewModel.updateWeather(city.name)
-            }else{
-                binding.emptyList.visibility = View.GONE
-                binding.frlMainHeader.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.VISIBLE
-                updateHeaderUi(city.country,
-                    city.name,
-                    city.temp_c.toString(),
-                    city.icon)
-            }
-
-        }
     }
 
     private fun handleClickListeners() {
@@ -129,10 +101,15 @@ class WeatherListFragment : Fragment() {
         weatherListViewModel.citiesData.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is ResponseResult.Success -> {
-                    response.data?.let {
-                        showListOfDBCities(it)
+                    if (response.data.isNullOrEmpty()){
+                        binding.emptyList.visibility = View.VISIBLE
+                        binding.frlMainHeader.visibility = View.GONE
+                        binding.recyclerView.visibility = View.GONE
+                    }else{
+                        showListOfDBCities(response.data)
                     }
                 }
+
                 is ResponseResult.Loading -> {
                     //todo: better to show to loading but load is fast enough for now
                 }
@@ -180,8 +157,36 @@ class WeatherListFragment : Fragment() {
         })
 
         sharedViewModel.updateWeatherFragment.observe(viewLifecycleOwner, Observer {
-            weatherListViewModel.getAllCitiesFromDB()
-            handleCurrentSelectedCity()
+            weatherListViewModel.fetchEveryThingAboutWeatherList()
+//            handleCurrentSelectedCity()
+        })
+
+        weatherListViewModel.currentSelectedCity.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ResponseResult.DataBaseError -> {
+                    Toast.makeText(context, it.error , Toast.LENGTH_SHORT).show()
+                }
+                is ResponseResult.Success -> {
+                    it.data?.let { city ->
+                        if(sharedViewModel.checkInternetState()){
+                            binding.emptyList.visibility = View.GONE
+                            binding.frlMainHeader.visibility = View.VISIBLE
+                            binding.recyclerView.visibility = View.VISIBLE
+                            weatherListViewModel.updateWeather(city.name)
+                        }else{
+                            binding.emptyList.visibility = View.GONE
+                            binding.frlMainHeader.visibility = View.VISIBLE
+                            binding.recyclerView.visibility = View.VISIBLE
+                            updateHeaderUi(city.country,
+                                city.name,
+                                city.temp_c.toString(),
+                                city.icon)
+                        }
+                    }
+                }
+                else -> {}
+            }
+
         })
 
     }
@@ -213,9 +218,11 @@ class WeatherListFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         adapter.notifyItemRangeInserted(0,it.size)
         adapter.onCityNameClick = {
-            //todo: mig to db
-            AtmosphereDataBase.getInstance(requireContext()).citiesDao().unsetLastSelectedCity()
-            AtmosphereDataBase.getInstance(requireContext()).citiesDao().setSelectedCity(it.name.lowercase())
+
+            //todo: mig to viewmodel (DONEEE)
+            weatherListViewModel.unsetLastSelectedCity()
+            weatherListViewModel.setSelectedCity(it.name.lowercase().trim())
+
             //currentCity = it.name
             if(sharedViewModel.checkInternetState()){
                 weatherListViewModel.updateWeather(it.name)

@@ -50,7 +50,7 @@ internal fun updateAppWidget(
 
     val views = RemoteViews(context.packageName, R.layout.weather_app_widget)
 
-    if(!atmosphereDB.citiesDao().isAnyCityAlreadySelected()){
+    if(!atmosphereDB.citiesDao().isAnyCityAlreadySelected()) {
         views.setViewVisibility(R.id.lnlWidgetDataContainer, View.GONE)
         views.setViewVisibility(R.id.txtWidgetStatus, View.VISIBLE)
         appWidgetManager.updateAppWidget(appWidgetId, views)

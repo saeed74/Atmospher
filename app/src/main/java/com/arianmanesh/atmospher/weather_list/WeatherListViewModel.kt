@@ -37,6 +37,10 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
     val cityDelete: LiveData<ResponseResult<CitiesDBModel>>
         get() = _cityDelete
 
+    private val _currentSelectedCity = MutableLiveData<ResponseResult<CitiesDBModel>>()
+    val currentSelectedCity: LiveData<ResponseResult<CitiesDBModel>>
+        get() = _currentSelectedCity
+
     private val repository = WeatherListRepository()
 
     fun updateWeather(city: String) {
@@ -64,10 +68,31 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
 
     }
 
-    fun getAllCitiesFromDB(){
+    fun fetchEveryThingAboutWeatherList(){
         viewModelScope.launch(Dispatchers.IO) {
-            _citiesData.postValue(ResponseResult.Loading())
-            _citiesData.postValue(repository.readAllCitiesFromDB(context))
+            val allData = repository.readAllCitiesFromDB(context)
+            _citiesData.postValue(allData)
+            when (allData) {
+                is ResponseResult.Success -> {
+                    allData.data?.let {
+                        if (it.isNotEmpty()) {
+                            _currentSelectedCity.postValue(repository.getCurrentSelectedCity(context))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun unsetLastSelectedCity(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.unsetLastSelectedCity(context)
+        }
+    }
+
+    fun setSelectedCity(city: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.setSelectedCity(city, context)
         }
     }
 

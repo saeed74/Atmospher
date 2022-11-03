@@ -44,14 +44,16 @@ class WeatherListRepository () {
         }
     }
 
-    //todo: mig to db
-    fun storeCurrentSelectedCity(city: String, context: Context){
-
+    fun getCurrentSelectedCity(context: Context): ResponseResult<CitiesDBModel>{
+        return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity())
     }
-//
-//    fun getCurrentSelectedCity(context: Context): String {
-//
-//        return
-//    }
+
+    fun unsetLastSelectedCity(context: Context): ResponseResult<Unit>{
+        return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().unsetLastSelectedCity())
+    }
+
+    fun setSelectedCity(city: String, context: Context): ResponseResult<Unit>{
+        return ResponseResult.Success(AtmosphereDataBase.getInstance(context).citiesDao().setSelectedCity(city))
+    }
 
 }
