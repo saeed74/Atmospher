@@ -30,8 +30,8 @@
         <FrameLayout
             android:id="@+id/frlMainHeader"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:visibility="visible">
+            android:layout_height="230dp"
+            android:visibility="visible">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/crdInternetNotifContainer"
@@ -70,17 +70,20 @@
                 android:indeterminateTintMode="src_atop" />
 
             <LinearLayout
+                android:id="@+id/lnlMainWeatherDataContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:orientation="vertical"
-                android:padding="50dp">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
                     android:gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -92,11 +95,52 @@
                         android:id="@+id/txtCityTemperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginStart="5dp"
+                        android:gravity="center"
                         android:text=""
                         android:textColor="@color/black"
                         android:textSize="26sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnlHumidityAndWindDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:src="@drawable/humidity" />
+
+                    <TextView
+                        android:id="@+id/txtHumidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:text="20%"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:layout_marginStart="18dp"
+                        android:src="@drawable/wind" />
+
+                    <TextView
+                        android:id="@+id/txtWind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:text="5K/h"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 

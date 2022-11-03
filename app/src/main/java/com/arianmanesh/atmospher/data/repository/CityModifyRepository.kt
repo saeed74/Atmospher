@@ -52,6 +52,8 @@ class CityModifyRepository () {
         cityItem.country = body.location.country
         cityItem.icon = body.current.condition.icon
         cityItem.temp_c = body.current.temp_c
+        cityItem.wind = body.current.wind_kph
+        cityItem.humidity = body.current.humidity
         cityItem.last_updated = body.current.last_updated
         return cityItem
     }

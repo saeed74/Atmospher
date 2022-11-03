@@ -48,7 +48,6 @@ class WeatherListFragment : Fragment() {
         weatherListViewModel.fetchAllWeatherListAndCurrentCity()
         sharedViewModel.checkInternetConnectivity()
 
-//        handleCurrentSelectedCity()
         setObservers()
         handleClickListeners()
 
@@ -66,30 +65,36 @@ class WeatherListFragment : Fragment() {
             when (response) {
                 is ResponseResult.Success -> {
                     response.data?.let {
+                        weatherListViewModel.unsetLastSelectedCity()
+                        weatherListViewModel.setSelectedCity(it.location.name.lowercase().trim())
                         updateHeaderUi(it.location.country,
                             it.location.name,
                             it.current.temp_c.toString(),
-                            it.current.condition.icon)
+                            it.current.condition.icon,
+                            it.current.humidity.toString(),
+                            it.current.wind_kph.toString()
+                        )
                     }
                 }
                 is ResponseResult.Error -> {
                     response.errorResponseBody?.let {
                         binding.prgLoading.visibility = View.GONE
+                        binding.lnlMainWeatherDataContainer.visibility = View.VISIBLE
+                        binding.lnlHumidityAndWindDetails.visibility = View.GONE
                         binding.txtCityName.visibility = View.VISIBLE
                         binding.txtCityName.text = it.string()
                     }
                     if(response.errorCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT){
                         binding.prgLoading.visibility = View.GONE
+                        binding.lnlMainWeatherDataContainer.visibility = View.VISIBLE
+                        binding.lnlHumidityAndWindDetails.visibility = View.GONE
                         binding.txtCityName.visibility = View.VISIBLE
                         binding.txtCityName.text = getString(R.string.timeout)
                     }
                 }
                 is ResponseResult.Loading -> {
-                    binding.imgMapMarkerIcon.visibility = View.INVISIBLE
                     binding.prgLoading.visibility = View.VISIBLE
-                    binding.txtCityName.visibility = View.INVISIBLE
-                    binding.imgWeatherIcon.visibility = View.INVISIBLE
-                    binding.txtCityTemperature.visibility = View.INVISIBLE
+                    binding.lnlMainWeatherDataContainer.visibility = View.GONE
                 }
                 else -> {}
             }
@@ -168,13 +173,18 @@ class WeatherListFragment : Fragment() {
                             binding.recyclerView.visibility = View.VISIBLE
                             weatherListViewModel.updateWeather(city.name)
                         }else{
+                            weatherListViewModel.unsetLastSelectedCity()
+                            weatherListViewModel.setSelectedCity(city.name.lowercase().trim())
                             binding.emptyList.visibility = View.GONE
                             binding.frlMainHeader.visibility = View.VISIBLE
                             binding.recyclerView.visibility = View.VISIBLE
                             updateHeaderUi(city.country,
                                 city.name,
                                 city.temp_c.toString(),
-                                city.icon)
+                                city.icon,
+                                city.humidity.toString(),
+                                city.wind.toString()
+                            )
                         }
                     }
                 }
@@ -185,14 +195,20 @@ class WeatherListFragment : Fragment() {
 
     }
 
-    private fun updateHeaderUi(country: String, city: String, temperature: String, icon: String) {
+    private fun updateHeaderUi(
+        country: String,
+        city: String,
+        temperature: String,
+        icon: String,
+        humidity: String,
+        wind: String
+    ) {
         binding.prgLoading.visibility = View.GONE
-        binding.imgMapMarkerIcon.visibility = View.VISIBLE
-        binding.txtCityName.visibility = View.VISIBLE
-        binding.txtCityTemperature.visibility = View.VISIBLE
-        binding.imgWeatherIcon.visibility = View.VISIBLE
+        binding.lnlMainWeatherDataContainer.visibility = View.VISIBLE
         binding.txtCityName.text = buildCityText(country,city)
         binding.txtCityTemperature.text = buildTemperatureText(temperature)
+        binding.txtHumidity.text = buildHumidityText(humidity)
+        binding.txtWind.text = buildWindText(wind)
         Glide.with(requireContext()).load("https:$icon").into(binding.imgWeatherIcon)
     }
 
@@ -202,6 +218,14 @@ class WeatherListFragment : Fragment() {
 
     private fun buildTemperatureText(temperature: String): String {
         return (temperature + getString(R.string.centigrade_sign))
+    }
+
+    private fun buildHumidityText(it: String): String {
+        return (it + getString(R.string.percent_sign))
+    }
+
+    private fun buildWindText(it: String): String {
+        return (it + getString(R.string.kph_sign))
     }
 
     private fun showListOfDBCities(it: List<CitiesDBModel>){
@@ -225,7 +249,10 @@ class WeatherListFragment : Fragment() {
                 updateHeaderUi(it.country,
                     it.name,
                     it.temp_c.toString(),
-                    it.icon)
+                    it.icon,
+                    it.humidity.toString(),
+                    it.wind.toString(),
+                )
             }
 
 

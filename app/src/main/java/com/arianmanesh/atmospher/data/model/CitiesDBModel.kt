@@ -11,6 +11,8 @@ class CitiesDBModel() {
     var name: String = ""
     var last_updated: String = ""
     var temp_c: Double = 0.0
+    var wind: Double = 0.0
+    var humidity: Int = 0
     var icon: String = ""
     var selected: Int = 0
 }

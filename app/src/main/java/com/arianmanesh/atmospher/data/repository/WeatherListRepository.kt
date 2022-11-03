@@ -1,6 +1,7 @@
 package com.arianmanesh.atmospher.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.arianmanesh.atmospher.R
 import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.data.remote.ResponseResult
@@ -30,7 +31,9 @@ class WeatherListRepository () {
     }
 
     suspend fun removeCityFromDB(context: Context, city: CitiesDBModel): ResponseResult<CitiesDBModel> {
-        if(AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity().name == city.name){
+
+        val selectedCity = AtmosphereDataBase.getInstance(context).citiesDao().getCurrentSelectedCity().name
+        if(selectedCity == city.name){
             return ResponseResult.DataBaseError(context.getString(R.string.cant_delete_current_city))
         }else{
             AtmosphereDataBase.getInstance(context).citiesDao().deleteCity(city)
