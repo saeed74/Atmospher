@@ -15,6 +15,7 @@ import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.core.ResponseResult
 import com.arianmanesh.atmospher.database.CitiesDBModel
 import kotlinx.coroutines.*
+import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
 
 
@@ -54,7 +55,7 @@ class WeatherListViewModel(application: Application) : AndroidViewModel(applicat
                 }
             } catch (e: Exception) {
                 if(e is SocketTimeoutException) {
-                    _weatherData.postValue(ResponseResult.Error(null))
+                    _weatherData.postValue(ResponseResult.Error(HttpURLConnection.HTTP_GATEWAY_TIMEOUT))
                 }
             }
 

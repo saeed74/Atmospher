@@ -17,7 +17,7 @@ data class Location (
 
 data class Current (
     val last_updated: String,
-    val temp_c: Long,
+    val temp_c: Double,
     val condition: Condition
 )
 

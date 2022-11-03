@@ -13,5 +13,6 @@
     <string name="add_widget">Add weather widget</string>
     <string name="app_widget_description">Atmosphere weather app widget</string>
     <string name="please_add_at_least_one_city">Please add at least one city</string>
+    <string name="timeout">Server response timeout</string>
 
 </resources>

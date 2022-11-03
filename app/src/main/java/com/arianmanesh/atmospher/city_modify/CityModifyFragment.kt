@@ -13,6 +13,7 @@ import com.arianmanesh.atmospher.R
 import com.arianmanesh.atmospher.core.ResponseResult
 import com.arianmanesh.atmospher.databinding.FragmentCityModifyBinding
 import com.arianmanesh.atmospher.main.SharedViewModel
+import java.net.HttpURLConnection
 
 class CityModifyFragment : Fragment() {
 
@@ -78,8 +79,10 @@ class CityModifyFragment : Fragment() {
                 }
                 is ResponseResult.Error -> {
                     response.errorResponseBody?.let {
-                        //todo: better show error
                         binding.txtShowState.text = it.string()
+                    }
+                    if(response.errorCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT){
+                        binding.txtShowState.text = getString(R.string.timeout)
                     }
                 }
                 is ResponseResult.DataBaseError -> {

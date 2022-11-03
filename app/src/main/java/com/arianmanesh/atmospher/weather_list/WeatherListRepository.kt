@@ -27,7 +27,7 @@ class WeatherListRepository () {
                 return ResponseResult.Success(body)
             }
         }
-        return ResponseResult.Error(response.errorBody())
+        return ResponseResult.Error(response.code(),response.errorBody())
 
     }
 

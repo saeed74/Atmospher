@@ -25,6 +25,7 @@ import com.arianmanesh.atmospher.main.SharedViewModel
 import com.arianmanesh.atmospher.weather_list.adapters.WeatherItemAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
+import java.net.HttpURLConnection
 
 
 class WeatherListFragment : Fragment() {
@@ -107,6 +108,11 @@ class WeatherListFragment : Fragment() {
                         binding.prgLoading.visibility = View.GONE
                         binding.txtCityName.visibility = View.VISIBLE
                         binding.txtCityName.text = it.string()
+                    }
+                    if(response.errorCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT){
+                        binding.prgLoading.visibility = View.GONE
+                        binding.txtCityName.visibility = View.VISIBLE
+                        binding.txtCityName.text = getString(R.string.timeout)
                     }
                 }
                 is ResponseResult.Loading -> {

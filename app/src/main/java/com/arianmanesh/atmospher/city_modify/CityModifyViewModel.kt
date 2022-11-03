@@ -1,12 +1,15 @@
 package com.arianmanesh.atmospher.city_modify
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.core.ResponseResult
 import kotlinx.coroutines.*
+import java.net.HttpURLConnection
 import java.net.IDN
 import java.net.SocketTimeoutException
+import kotlin.math.log
 
 class CityModifyViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -34,8 +37,9 @@ class CityModifyViewModel(application: Application) : AndroidViewModel(applicati
                     else -> {}
                 }
             } catch (e: Exception) {
+                Log.e("TAG_Exception", e.message.toString())
                 if (e is SocketTimeoutException) {
-                    _weatherData.postValue(ResponseResult.Error(null))
+                    _weatherData.postValue(ResponseResult.Error(HttpURLConnection.HTTP_GATEWAY_TIMEOUT,null))
                 }
             }
 

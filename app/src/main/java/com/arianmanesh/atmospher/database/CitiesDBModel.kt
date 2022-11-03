@@ -12,7 +12,7 @@ class CitiesDBModel() {
     var country: String = ""
     var name: String = ""
     var last_updated: String = ""
-    var temp_c: Long = 0
+    var temp_c: Double = 0.0
     var icon: String = ""
     var selected: Int = 0
 }

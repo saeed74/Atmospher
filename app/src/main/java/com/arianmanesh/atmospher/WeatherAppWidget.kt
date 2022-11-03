@@ -94,7 +94,7 @@ internal fun updateAppWidget(
     appWidgetManager.updateAppWidget(appWidgetId, views)
 }
 
-private fun showResultOnWidget(views: RemoteViews, context: Context, appWidgetId: Int,  name: String, country: String, tempC: Long, icon: String) {
+private fun showResultOnWidget(views: RemoteViews, context: Context, appWidgetId: Int,  name: String, country: String, tempC: Double, icon: String) {
 
     views.setTextViewText(R.id.txtCityName, buildCityText(country,name))
     views.setTextViewText(R.id.txtCityTemperature, (tempC.toString() + context.getString(R.string.centigrade_sign)))

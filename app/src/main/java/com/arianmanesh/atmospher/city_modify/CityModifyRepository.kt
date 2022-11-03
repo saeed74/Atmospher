@@ -1,6 +1,7 @@
 package com.arianmanesh.atmospher.city_modify
 
 import android.content.Context
+import android.security.AppUriAuthenticationPolicy
 import android.util.Log
 import com.arianmanesh.atmospher.WeatherItemResponse
 import com.arianmanesh.atmospher.core.ApiService
@@ -30,6 +31,7 @@ class CityModifyRepository () {
 
     private suspend fun requestByRetrofit(city: String, modifyMode: Boolean, previousCity: String, context: Context) : ResponseResult<WeatherItemResponse>{
 
+        Log.e("TAG1","req: " + city)
         val response = RetrofitInstance.api.getWeatherDetail(RetrofitInstance.apiKey,city)
         if (response.isSuccessful) {
             val body = response.body()
@@ -47,7 +49,7 @@ class CityModifyRepository () {
                 return ResponseResult.Success(body)
             }
         }
-        return ResponseResult.Error(response.errorBody())
+        return ResponseResult.Error(response.code(),response.errorBody())
     }
 
     private fun convertToDBModel(body: WeatherItemResponse): CitiesDBModel{
