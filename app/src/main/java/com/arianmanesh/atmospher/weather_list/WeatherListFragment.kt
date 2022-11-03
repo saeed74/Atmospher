@@ -207,8 +207,8 @@ class WeatherListFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         adapter.notifyItemRangeInserted(0,it.size)
         adapter.onCityNameClick = {
-            //todo: mig to db done
-            //weatherListViewModel.storeCurrentSelectedCity(it.name,requireContext())
+            //todo: mig to db
+            AtmosphereDataBase.getInstance(requireContext()).citiesDao().unsetLastSelectedCity()
             AtmosphereDataBase.getInstance(requireContext()).citiesDao().setSelectedCity(it.name.lowercase())
             //currentCity = it.name
             if(sharedViewModel.checkInternetState()){
